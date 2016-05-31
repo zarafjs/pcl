@@ -1,7 +1,8 @@
 {
   "name": "mainuljs/pcl",
   "type": "cakephp-plugin",
-  "description": "Access Control plugin for CakePHP 3",
+  "description": "CakePHP 3 Permission Control Plugin",
+  "keywords": ["CakePHP", "Permission", "Acl"],
   "version": "1.0",
   "authors": [
     {
