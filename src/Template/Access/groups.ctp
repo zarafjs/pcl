@@ -125,7 +125,7 @@
         console.log(currentlyDenied);
         $.ajax({
             type: "POST",
-            url: "<?php echo $this->Url->build(['action' => 'ex_ChangePermission']); ?>",
+            url: "<?php echo $this->Url->build(['action' => 'exChangePermission']); ?>",
             data: {aro_aco: aro_aco, currentlyDenied: currentlyDenied}
         }).done(function (msg) {
             console.log(msg);

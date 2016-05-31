@@ -34,7 +34,7 @@ class AccessController extends AppController
         $this->loadModel('Acos');
         $query = $this->Acos->find('threaded');
         $query->contain('Aros');
-        $query->where(['alias NOT LIKE' => "ex_%"]);
+        $query->where(['alias NOT LIKE' => "ex%"]);
         $query->where(['alias NOT IN' => $defaultIgnoreList]);
         if ($displayList) {
             $query->where(['alias IN ' => $pclAcoList['display']]);
@@ -59,7 +59,7 @@ class AccessController extends AppController
         }
     }
 
-    public function ex_ChangePermission()
+    public function exChangePermission()
     {
         $this->request->allowMethod(['post']);
         $this->viewBuilder()->layout(false);
