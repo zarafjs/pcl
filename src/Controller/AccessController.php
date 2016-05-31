@@ -1,5 +1,5 @@
 <?php
-namespace Pcl\Controller;
+namespace pcl\Controller;
 
 use Pcl\Controller\AppController;
 use Cake\Event\Event;
@@ -34,6 +34,7 @@ class AccessController extends AppController
         $query = $this->Acos->find('threaded');
         $query->contain('Aros');
         $query->where(['alias NOT LIKE' => "ex_%"]);
+        $query->where(['alias !=' => "Pcl"]);
         if ($displayList) {
             $query->where(['alias IN ' => $pclAcoList['display']]);
         }
