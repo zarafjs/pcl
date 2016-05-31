@@ -8,14 +8,14 @@
         <div class="panel panel-default">
             <!-- Start .panel -->
             <div class="panel-heading">
-                <h4 class="panel-title"><i class="fa fa-user"></i>Set Permissions</h4>
+                <h4 class="panel-title"><i class="fa fa-user"></i>Set Permissions [<?php echo $this->Form->postLink('acoSync', ['controller' => 'Access', 'action' => 'sync'], ['title' => 'Click to sync new Controllers ans Actions', 'class' => 'color-blue']); ?>]</h4>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-bordered">
                     <thead>
                     <tr>
                         <?php foreach ($groups as $group): ?>
-                            <th class="per25"><?php echo $group->name; ?></th>
+                            <th><?php echo $group->name; ?></th>
                         <?php endforeach; ?>
                     </tr>
                     </thead>
@@ -35,8 +35,8 @@
                                 $gPermitted = (isset($gRos[$group->id]) && $gRos[$group->id]->model == 'Groups' && $gRos[$group->id]->_joinData->_create == 1);
                                 ?>
                                 <td>
-                                    <div class="">All Controllers</div>
-                                    <div class="per10 text-right"><i rel="<?php echo $group->id . '_' . $aco->id; ?>" class="icomoon-icon-checkmark <?php echo $gPermitted ? '' : 'opacity02' ?>"></i></div>
+                                    <span class="aco_alias">All Controllers</span>
+                                    <span class="aco_permission <?php echo $gPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $aco->id; ?>">&#10004;</span>
                                 </td>
                             <?php endforeach; ?>
                         </tr>
@@ -57,8 +57,8 @@
                                     }
                                     ?>
                                     <td>
-                                        <div class=""><?php echo str_repeat("&nbsp;", 5); ?><strong><?php echo $cont->alias; ?></strong></div>
-                                        <div class="per10 text-right"><i rel="<?php echo $group->id . '_' . $cont->id; ?>" class="icomoon-icon-checkmark <?php echo $cPermitted ? '' : 'opacity02'; ?>"></i></div>
+                                        <span class="aco_alias"><?php echo str_repeat("&nbsp;", 5); ?><strong><?php echo $cont->alias; ?></strong></span>
+                                        <span class="aco_permission <?php echo $cPermitted ? '' : 'opacity02'; ?>" rel="<?php echo $group->id . '_' . $cont->id; ?>">&#10004;</span>
                                     </td>
                                 <?php endforeach; ?>
                             </tr>
@@ -83,8 +83,8 @@
                                         }
                                         ?>
                                         <td>
-                                            <div class=""><?php echo str_repeat("&nbsp;", 20); ?><?php echo $act->alias; ?></div>
-                                            <div class="per10 text-right"><i rel="<?php echo $group->id . '_' . $act->id; ?>" class="icomoon-icon-checkmark <?php echo $aPermitted ? '' : 'opacity02' ?>"></i></div>
+                                            <span class="aco_alias"><?php echo str_repeat("&nbsp;", 20); ?><?php echo $act->alias; ?></span>
+                                            <span class="aco_permission <?php echo $aPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $act->id; ?>">&#10004;</span>
                                         </td>
                                     <?php endforeach; ?>
                                 </tr>
@@ -98,11 +98,26 @@
     </div>
 </div>
 
-<?php $this->Html->scriptStart(['block' => true]); ?>
+<style>
+    .group_permissions_table table td span {
+        display: inline-block;
+    }
+
+    .group_permissions_table table td span.aco_alias {
+        width: 90%;
+    }
+
+    .group_permissions_table table td span.aco_permission {
+        width: 5%;
+        cursor: pointer;
+    }
+</style>
+
+<?php //$this->Html->scriptStart(['block' => true]); ?>
 
 <SCRIPT>
     /* to change individual item permission */
-    $(document).on('click', '.group_permissions_table td i.icomoon-icon-checkmark', function (evt) {
+    $(document).on('click', '.group_permissions_table td span.aco_permission', function (evt) {
         evt.preventDefault();
         var _this = $(this);
         var aro_aco = _this.attr('rel');
@@ -124,4 +139,4 @@
 
 </SCRIPT>
 
-<?php $this->Html->scriptEnd(); ?>
+<?php //$this->Html->scriptEnd(); ?>

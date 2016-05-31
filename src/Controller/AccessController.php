@@ -2,6 +2,7 @@
 namespace Pcl\Controller;
 
 use Pcl\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Access Controller
@@ -9,6 +10,12 @@ use Pcl\Controller\AppController;
  */
 class AccessController extends AppController
 {
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['sync']);
+    }
 
     public function groups()
     {
@@ -18,19 +25,39 @@ class AccessController extends AppController
         $groups = $this->Groups->find();
         $this->set(compact('groups'));
 
-        $inArray = ['controllers', 'Tasks', 'Contacts', 'Organizations', 'Leads', 'Opportunities', 'Projects', 'Settings', 'add', 'edit', 'view', 'delete'];
+        $pclAcoList = \Cake\Core\Configure::read('pclAcoList');
+        $displayList = isset($pclAcoList['display']) && $pclAcoList['display'] ? $pclAcoList['display'] : false;
+        $ignoreList = isset($pclAcoList['ignore']) && $pclAcoList['ignore'] ? $pclAcoList['ignore'] : false;
+
 
         $this->loadModel('Acos');
-        $query = $this->Acos->find('threaded')
-            ->contain('Aros')
-            ->where(['alias IN ' => $inArray]);
+        $query = $this->Acos->find('threaded');
+        $query->contain('Aros');
+        $query->where(['alias NOT LIKE' => "ex_%"]);
+        if ($displayList) {
+            $query->where(['alias IN ' => $pclAcoList['display']]);
+        }
+        if ($ignoreList) {
+            $query->where(['alias NOT IN ' => $pclAcoList['ignore']]);
+        }
+
         $acos = $query->toArray();
 
         $this->set(compact('acos'));
 
     }
 
-    public function exChangePermission()
+    public function sync()
+    {
+        if ($this->request->is(['post'])) {
+            $job = new \Acl\Shell\AclExtrasShell();
+            $job->startup();
+            $job->acoSync();
+            return $this->redirect(['action' => 'groups']);
+        }
+    }
+
+    public function ex_ChangePermission()
     {
         $this->request->allowMethod(['post']);
         $this->viewBuilder()->layout(false);
