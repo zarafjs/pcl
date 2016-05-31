@@ -29,12 +29,13 @@ class AccessController extends AppController
         $displayList = isset($pclAcoList['display']) && $pclAcoList['display'] ? $pclAcoList['display'] : false;
         $ignoreList = isset($pclAcoList['ignore']) && $pclAcoList['ignore'] ? $pclAcoList['ignore'] : false;
 
+        $defaultIgnoreList = ['Acl', 'Migrations', 'DebugKit', 'Pcl', 'Papa'];
 
         $this->loadModel('Acos');
         $query = $this->Acos->find('threaded');
         $query->contain('Aros');
         $query->where(['alias NOT LIKE' => "ex_%"]);
-        $query->where(['alias !=' => "Pcl"]);
+        $query->where(['alias NOT IN' => $defaultIgnoreList]);
         if ($displayList) {
             $query->where(['alias IN ' => $pclAcoList['display']]);
         }
