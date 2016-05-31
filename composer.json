@@ -2,6 +2,11 @@
     "name": "mainuljs/Pcl",
     "minimum-stability": "stable",
     "description": "Pcl plugin for CakePHP 3",
+    "authors": [
+        {
+            "name": "A K M Mainul Islam"
+        }
+    ],
     "type": "cakephp-plugin",
     "require": {
         "php": ">=5.4.16",
