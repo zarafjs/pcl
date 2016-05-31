@@ -1,28 +1,32 @@
 {
-    "name": "mainuljs/pcl",
-    "description": "Pcl plugin for CakePHP 3",
-    "authors": [
-        {
-            "name": "A K M Mainul Islam"
-        }
-    ],
-    "type": "cakephp-plugin",
-    "require": {
-        "php": ">=5.4.16",
-        "cakephp/cakephp": "~3.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "*"
-    },
-    "autoload": {
-        "psr-4": {
-            "Pcl\\": "src"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Pcl\\Test\\": "tests",
-            "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
-        }
+  "name": "mainuljs/pcl",
+  "type": "cakephp-plugin",
+  "description": "Access Control plugin for CakePHP 3",
+  "version": "1.0",
+  "authors": [
+    {
+      "name": "A K M Mainul Islam",
+      "email": "mainuljs@gmail.com",
+      "role": "Developer"
     }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=5.4.16",
+    "cakephp/cakephp": "~3.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Pcl\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Pcl\\Test\\": "tests",
+      "Cake\\Test\\": "./vendor/cakephp/cakephp/tests"
+    }
+  }
 }
