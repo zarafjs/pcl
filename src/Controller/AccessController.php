@@ -26,8 +26,9 @@ class AccessController extends AppController
         $this->set(compact('groups'));
 
         $pclAcoList = \Cake\Core\Configure::read('pclAcoList');
-        $displayList = isset($pclAcoList['display']) && $pclAcoList['display'] ? $pclAcoList['display'] : false;
-        $ignoreList = isset($pclAcoList['ignore']) && $pclAcoList['ignore'] ? $pclAcoList['ignore'] : false;
+        $displayList = is_array($pclAcoList) ? $pclAcoList : [];
+        $displayList[] = 'controllers';
+
 
         $defaultIgnoreList = ['Acl', 'Migrations', 'DebugKit', 'Pcl', 'Papa'];
 
@@ -37,10 +38,7 @@ class AccessController extends AppController
         $query->where(['alias NOT LIKE' => "ex%"]);
         $query->where(['alias NOT IN' => $defaultIgnoreList]);
         if ($displayList) {
-            $query->where(['alias IN ' => $pclAcoList['display']]);
-        }
-        if ($ignoreList) {
-            $query->where(['alias NOT IN ' => $pclAcoList['ignore']]);
+            $query->where(['alias IN' => $displayList]);
         }
 
         $acos = $query->toArray();
