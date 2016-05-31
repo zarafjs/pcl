@@ -1,6 +1,5 @@
 {
     "name": "mainuljs/pcl",
-    "minimum-stability": "stable",
     "description": "Pcl plugin for CakePHP 3",
     "authors": [
         {
