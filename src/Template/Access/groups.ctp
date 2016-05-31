@@ -111,6 +111,10 @@
         width: 5%;
         cursor: pointer;
     }
+
+    .opacity02 {
+        opacity: .2 !important
+    }
 </style>
 
 <?php //$this->Html->scriptStart(['block' => true]); ?>
