@@ -98,24 +98,7 @@
     </div>
 </div>
 
-<style>
-    .group_permissions_table table td span {
-        display: inline-block;
-    }
-
-    .group_permissions_table table td span.aco_alias {
-        width: 90%;
-    }
-
-    .group_permissions_table table td span.aco_permission {
-        width: 5%;
-        cursor: pointer;
-    }
-
-    .opacity02 {
-        opacity: .2 !important
-    }
-</style>
+<?php echo $this->Html->css('Pcl.pcl.css'); ?>
 
 <?php //$this->Html->scriptStart(['block' => true]); ?>
 

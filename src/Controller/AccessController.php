@@ -57,6 +57,11 @@ class AccessController extends AppController
             $job->acoSync();
             return $this->redirect(['action' => 'groups']);
         }
+        $this->loadModel('Acos');
+        $query = $this->Acos->find('threaded');
+        $query->contain('Aros');
+        $acos = $query->toArray();
+        $this->set(compact('acos'));
     }
 
     public function exChangePermission()
