@@ -27,7 +27,9 @@ class AccessController extends AppController
 
         $pclAcoList = \Cake\Core\Configure::read('pclAcoList');
         $displayList = is_array($pclAcoList) ? $pclAcoList : [];
-        $displayList[] = 'controllers';
+        if ($displayList) {
+            $displayList[] = 'controllers';
+        }
 
 
         $defaultIgnoreList = ['Acl', 'Migrations', 'DebugKit', 'Pcl', 'Papa'];
