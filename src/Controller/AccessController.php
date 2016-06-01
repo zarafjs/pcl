@@ -57,11 +57,24 @@ class AccessController extends AppController
             $job->acoSync();
             return $this->redirect(['action' => 'groups']);
         }
+
         $this->loadModel('Acos');
         $query = $this->Acos->find('threaded');
         $query->contain('Aros');
         $acos = $query->toArray();
         $this->set(compact('acos'));
+
+        if ($acos) {
+            pr($acos);
+            exit;
+            if (!isset($acos[0]->excluded)) {
+                $sql = "ALTER TABLE `acos` ADD `excluded` BOOLEAN NULL DEFAULT TRUE AFTER `rght`";
+                $conn = \Cake\Datasource\ConnectionManager::get('default');
+                $success = $conn->execute($sql);
+                pr($success);
+            }
+        }
+        exit;
     }
 
     public function exChangePermission()
