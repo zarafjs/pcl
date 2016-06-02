@@ -16,7 +16,8 @@
                     <thead>
                     <tr>
                         <th>Controllers / Actions</th>
-                        <th>Included</th>
+                        <th class="width10">&nbsp;</th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>

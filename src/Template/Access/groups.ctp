@@ -16,7 +16,7 @@
                     <tr>
                         <?php foreach ($groups as $group): ?>
                             <th><?php echo $group->name; ?></th>
-                            <th></th>
+                            <th class="width10">&nbsp;</th>
                         <?php endforeach; ?>
                     </tr>
                     </thead>
