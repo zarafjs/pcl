@@ -35,7 +35,7 @@
                                 <td>
                                     All Controllers
                                 </td>
-                                <td>
+                                <td class="width10">
                                     <span class="aco_permission <?php echo $gPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $acos->id; ?>">&#10004;</span>
                                 </td>
                             <?php endforeach; ?>
@@ -59,7 +59,7 @@
                                     <td>
                                         <?php echo str_repeat("&nbsp;", 5); ?><strong><?php echo $cont->alias; ?></strong>
                                     </td>
-                                    <td>
+                                    <td class="width10">
                                         <span class="aco_permission <?php echo $cPermitted ? '' : 'opacity02'; ?>" rel="<?php echo $group->id . '_' . $cont->id; ?>">&#10004;</span>
 
                                     </td>
@@ -88,7 +88,7 @@
                                         <td>
                                             <?php echo str_repeat("&nbsp;", 20); ?><?php echo $act->alias; ?>
                                         </td>
-                                        <td>
+                                        <td class="width10">
                                             <span class="aco_permission <?php echo $aPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $act->id; ?>">&#10004;</span>
                                         </td>
                                     <?php endforeach; ?>
@@ -120,7 +120,7 @@
                                             <td>
                                                 <?php echo str_repeat("&nbsp;", 30); ?><?php echo $item->alias; ?>
                                             </td>
-                                            <td>
+                                            <td class="width10">
                                                 <span class="aco_permission <?php echo $aPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $item->id; ?>">&#10004;</span>
                                             </td>
                                         <?php endforeach; ?>

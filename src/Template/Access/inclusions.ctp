@@ -23,28 +23,28 @@
                     <?php if (isset($acos) && $acos): ?>
                         <tr>
                             <td>All Controllers</td>
-                            <td>
+                            <td class="width10">
                                 <span class="aco_displayed <?php echo $acos->included ? '' : 'opacity02' ?>" rel="<?php echo $acos->id; ?>">&#10004;</span>
                             </td>
                         </tr>
                         <?php foreach ($acos->children as $cont): ?>
                             <tr>
                                 <td><?php echo str_repeat("&nbsp;", 5); ?><strong><?php echo $cont->alias; ?></strong></td>
-                                <td>
+                                <td class="width10">
                                     <span class="aco_displayed <?php echo $acos->included && $cont->included ? '' : 'opacity02' ?>" rel="<?php echo $cont->id; ?>">&#10004;</span>
                                 </td>
                             </tr>
                             <?php foreach ($cont->children as $act): ?>
                                 <tr>
                                     <td><?php echo str_repeat("&nbsp;", 20); ?><?php echo $act->alias; ?></td>
-                                    <td>
+                                    <td class="width10">
                                         <span class="aco_displayed <?php echo $cont->included && $act->included ? '' : 'opacity02' ?>" rel="<?php echo $act->id; ?>">&#10004;</span>
                                     </td>
                                 </tr>
                                 <?php foreach ($act->children as $item): ?>
                                     <tr>
                                         <td><?php echo str_repeat("&nbsp;", 30); ?><?php echo $item->alias; ?></td>
-                                        <td>
+                                        <td class="width10">
                                             <span class="aco_displayed <?php echo $cont->included && $act->included && $item->id ? '' : 'opacity02' ?>" rel="<?php echo $item->id; ?>">&#10004;</span>
                                         </td>
                                     </tr>
