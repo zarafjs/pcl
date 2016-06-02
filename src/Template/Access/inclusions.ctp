@@ -41,6 +41,14 @@
                                         <span class="aco_displayed <?php echo $cont->included && $act->included ? '' : 'opacity02' ?>" rel="<?php echo $act->id; ?>">&#10004;</span>
                                     </td>
                                 </tr>
+                                <?php foreach ($act->children as $item): ?>
+                                    <tr>
+                                        <td><?php echo str_repeat("&nbsp;", 30); ?><?php echo $item->alias; ?></td>
+                                        <td>
+                                            <span class="aco_displayed <?php echo $cont->included && $act->included && $item->id ? '' : 'opacity02' ?>" rel="<?php echo $item->id; ?>">&#10004;</span>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
                             <?php endforeach; ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
@@ -79,4 +87,3 @@
 </SCRIPT>
 <?php echo str_replace(['<SCRIPT>', '</SCRIPT>'], '', ob_get_clean()); ?>
 <?php $this->Html->scriptEnd(); ?>
-

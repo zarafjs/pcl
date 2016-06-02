@@ -7,5 +7,6 @@
 }
 
 .width10 {
-    width: 10px !important;
+    width: 15px !important;
+    text-align: center;
 }

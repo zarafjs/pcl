@@ -93,6 +93,39 @@
                                         </td>
                                     <?php endforeach; ?>
                                 </tr>
+                                <?php foreach ($act->children as $item): ?>
+                                    <?php
+                                    $iRos = [];
+                                    if ($item->aros) {
+                                        $iRos = \Cake\Utility\Hash::combine($item->aros, '{n}.foreign_key', '{n}');
+                                    }
+                                    ?>
+                                    <tr>
+                                        <?php foreach ($groups as $group): ?>
+                                            <?php
+                                            $gPermitted = (isset($gRos[$group->id]) && $gRos[$group->id]->model == 'Groups' && $gRos[$group->id]->_joinData->_create == 1);
+                                            $cPermitted = (isset($cRos[$group->id]) && $cRos[$group->id]->model == 'Groups' && $cRos[$group->id]->_joinData->_create == 1);
+                                            if (!isset($cRos[$group->id])) {
+                                                $cPermitted = $gPermitted;
+                                            }
+                                            $aPermitted = ((isset($aRos[$group->id]) && $aRos[$group->id]->model == 'Groups' && $aRos[$group->id]->_joinData->_create == 1));
+                                            if (!isset($aRos[$group->id])) {
+                                                $aPermitted = $cPermitted;
+                                            }
+                                            $iPermitted = ((isset($iRos[$group->id]) && $iRos[$group->id]->model == 'Groups' && $iRos[$group->id]->_joinData->_create == 1));
+                                            if (!isset($iRos[$group->id])) {
+                                                $iPermitted = $aPermitted;
+                                            }
+                                            ?>
+                                            <td>
+                                                <?php echo str_repeat("&nbsp;", 30); ?><?php echo $item->alias; ?>
+                                            </td>
+                                            <td>
+                                                <span class="aco_permission <?php echo $aPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $item->id; ?>">&#10004;</span>
+                                            </td>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                <?php endforeach; ?>
                             <?php endforeach; ?>
                         <?php endforeach; ?>
                     <?php endif; ?>
