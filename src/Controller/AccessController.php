@@ -25,59 +25,63 @@ class AccessController extends AppController
         $groups = $this->Groups->find();
         $this->set(compact('groups'));
 
-        $pclAcoList = \Cake\Core\Configure::read('pclAcoList');
-        $displayList = is_array($pclAcoList) ? $pclAcoList : [];
-        if ($displayList) {
-            $displayList[] = 'controllers';
-        }
-
-
-        $defaultIgnoreList = ['Acl', 'Migrations', 'DebugKit', 'Pcl', 'Papa'];
-
         $this->loadModel('Acos');
         $query = $this->Acos->find('threaded');
         $query->contain('Aros');
-        $query->where(['alias NOT LIKE' => "ex%"]);
-        $query->where(['alias NOT IN' => $defaultIgnoreList]);
-        if ($displayList) {
-            $query->where(['alias IN' => $displayList]);
+        $query->where(['included' => 1]);
+        $results = $query->toArray();
+        if (isset($results[0]->alias) && $results[0]->alias == 'controllers') {
+            $acos = $results[0];
+            $this->set(compact('acos'));
         }
-
-        $acos = $query->toArray();
-
-        $this->set(compact('acos'));
-
     }
 
     public function sync()
     {
+        $this->viewBuilder()->layout(false);
+        $this->autoRender = false;
+
         if ($this->request->is(['post'])) {
             $job = new \Acl\Shell\AclExtrasShell();
             $job->startup();
             $job->acoSync();
-            return $this->redirect(['action' => 'groups']);
+            return $this->redirect($this->referer());
         }
 
         $this->loadModel('Acos');
-        $query = $this->Acos->find('threaded');
-        $query->contain('Aros');
-        $acos = $query->toArray();
-        $this->set(compact('acos'));
+        $aco = $this->Acos->find()->first();
 
-        if ($acos) {
-            pr($acos);
-            exit;
-            if (!isset($acos[0]->excluded)) {
-                $sql = "ALTER TABLE `acos` ADD `excluded` BOOLEAN NULL DEFAULT TRUE AFTER `rght`";
-                $conn = \Cake\Datasource\ConnectionManager::get('default');
-                $success = $conn->execute($sql);
-                pr($success);
+        if ($aco) {
+            if (!isset($aco->included)) {
+                try {
+                    \Cake\Cache\Cache::clear(false, '_cake_model_');
+                    $sql = "ALTER TABLE `acos` ADD `included` BOOLEAN NULL DEFAULT TRUE AFTER `rght`";
+                    $conn = \Cake\Datasource\ConnectionManager::get('default');
+                    $conn->execute($sql);
+
+                } catch (\Cake\Core\Exception\Exception $ex) {
+                    die($ex->getMessage());
+                }
             }
         }
-        exit;
+        $job = new \Acl\Shell\AclExtrasShell();
+        $job->startup();
+        $job->acoSync();
+        return $this->redirect(['action' => 'inclusions']);
     }
 
-    public function exChangePermission()
+    public function inclusions()
+    {
+        $this->loadModel('Acos');
+        $query = $this->Acos->find('threaded');
+        $results = $query->toArray();
+        if (isset($results[0]->alias) && $results[0]->alias == 'controllers') {
+            $acos = $results[0];
+            $this->set(compact('acos'));
+        }
+    }
+
+    public function changePermission()
     {
         $this->request->allowMethod(['post']);
         $this->viewBuilder()->layout(false);
@@ -90,13 +94,39 @@ class AccessController extends AppController
 
         $currentlyDenied = $this->request->data['currentlyDenied'];
 
-        $success = false;
         if ($currentlyDenied == 1) {
-            $allowed = $this->Acl->allow($aroId, $acoId);
+            $this->Acl->allow($aroId, $acoId);
             exit('allowed');
         } else {
-            $denied = $this->Acl->deny($aroId, $acoId);
+            $this->Acl->deny($aroId, $acoId);
             exit('denied');
+        }
+
+        exit('');
+    }
+
+    public function changeInclusion()
+    {
+        $this->request->allowMethod(['post']);
+        $this->viewBuilder()->layout(false);
+        $this->autoRender = false;
+
+        $acoId = $this->request->data['acoId'];
+        $currentlyExcluded = $this->request->data['currentlyExcluded'];
+
+        $this->loadModel('Acos');
+        $aco = $this->Acos->get($acoId);
+
+        if ($aco) {
+            if ($currentlyExcluded == 1) {
+                $aco->included = 1;
+                $this->Acos->save($aco);
+                exit('included');
+            } else {
+                $aco->included = 0;
+                $this->Acos->save($aco);
+                exit('excluded');
+            }
         }
 
         exit('');

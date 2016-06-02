@@ -1,0 +1,7 @@
+.group_permissions_table table td span {
+    cursor: pointer;
+}
+
+.opacity02 {
+    opacity: .2 !important
+}

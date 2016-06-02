@@ -16,17 +16,15 @@
                     <tr>
                         <?php foreach ($groups as $group): ?>
                             <th><?php echo $group->name; ?></th>
+                            <th></th>
                         <?php endforeach; ?>
                     </tr>
                     </thead>
                     <tbody>
-                    <?php foreach ($acos as $key => $aco): ?>
+                    <?php if (isset($acos) && $acos): ?>
                         <?php
-                        if ($key > 0) {
-                            break;
-                        }
-                        if ($aco->aros) {
-                            $gRos = \Cake\Utility\Hash::combine($aco->aros, '{n}.foreign_key', '{n}');
+                        if ($acos->aros) {
+                            $gRos = \Cake\Utility\Hash::combine($acos->aros, '{n}.foreign_key', '{n}');
                         }
                         ?>
                         <tr>
@@ -35,12 +33,14 @@
                                 $gPermitted = (isset($gRos[$group->id]) && $gRos[$group->id]->model == 'Groups' && $gRos[$group->id]->_joinData->_create == 1);
                                 ?>
                                 <td>
-                                    <span class="aco_alias">All Controllers</span>
-                                    <span class="aco_permission <?php echo $gPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $aco->id; ?>">&#10004;</span>
+                                    All Controllers
+                                </td>
+                                <td>
+                                    <span class="aco_permission <?php echo $gPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $acos->id; ?>">&#10004;</span>
                                 </td>
                             <?php endforeach; ?>
                         </tr>
-                        <?php foreach ($aco->children as $cont): ?>
+                        <?php foreach ($acos->children as $cont): ?>
                             <?php
                             $cRos = [];
                             if ($cont->aros) {
@@ -57,8 +57,11 @@
                                     }
                                     ?>
                                     <td>
-                                        <span class="aco_alias"><?php echo str_repeat("&nbsp;", 5); ?><strong><?php echo $cont->alias; ?></strong></span>
+                                        <?php echo str_repeat("&nbsp;", 5); ?><strong><?php echo $cont->alias; ?></strong>
+                                    </td>
+                                    <td>
                                         <span class="aco_permission <?php echo $cPermitted ? '' : 'opacity02'; ?>" rel="<?php echo $group->id . '_' . $cont->id; ?>">&#10004;</span>
+
                                     </td>
                                 <?php endforeach; ?>
                             </tr>
@@ -83,14 +86,16 @@
                                         }
                                         ?>
                                         <td>
-                                            <span class="aco_alias"><?php echo str_repeat("&nbsp;", 20); ?><?php echo $act->alias; ?></span>
+                                            <?php echo str_repeat("&nbsp;", 20); ?><?php echo $act->alias; ?>
+                                        </td>
+                                        <td>
                                             <span class="aco_permission <?php echo $aPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $act->id; ?>">&#10004;</span>
                                         </td>
                                     <?php endforeach; ?>
                                 </tr>
                             <?php endforeach; ?>
                         <?php endforeach; ?>
-                    <?php endforeach; ?>
+                    <?php endif; ?>
                     </tbody>
                 </table>
             </div>
@@ -98,10 +103,10 @@
     </div>
 </div>
 
-<?php echo $this->Html->css('Pcl.pcl.css'); ?>
+<?php echo $this->Html->css('Pcl.style.css'); ?>
 
-<?php //$this->Html->scriptStart(['block' => true]); ?>
-
+<?php $this->Html->scriptStart(['block' => true]); ?>
+<?php ob_start(); ?>
 <SCRIPT>
     /* to change individual item permission */
     $(document).on('click', '.group_permissions_table td span.aco_permission', function (evt) {
@@ -112,7 +117,7 @@
         console.log(currentlyDenied);
         $.ajax({
             type: "POST",
-            url: "<?php echo $this->Url->build(['action' => 'exChangePermission']); ?>",
+            url: "<?php echo $this->Url->build(['action' => 'changePermission']); ?>",
             data: {aro_aco: aro_aco, currentlyDenied: currentlyDenied}
         }).done(function (msg) {
             console.log(msg);
@@ -123,7 +128,6 @@
             }
         });
     });
-
 </SCRIPT>
-
-<?php //$this->Html->scriptEnd(); ?>
+<?php echo str_replace(['<SCRIPT>', '</SCRIPT>'], '', ob_get_clean()); ?>
+<?php $this->Html->scriptEnd(); ?>
