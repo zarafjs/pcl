@@ -13,6 +13,6 @@
 
 .group_permissions_table .panel-title a {
     padding: 0 !important;
-    display: inline;
+    display: inline !important;
     text-decoration: underline;
 }
