@@ -10,3 +10,9 @@
     width: 10px !important;
     text-align: center;
 }
+
+.group_permissions_table .panel-title a {
+    padding: 0 !important;
+    display: inline;
+    text-decoration: underline;
+}

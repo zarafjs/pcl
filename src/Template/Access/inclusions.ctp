@@ -7,16 +7,14 @@
         <div class="panel panel-default">
             <!-- Start .panel -->
             <div class="panel-heading">
-                <h4 class="panel-title"><i class="fa fa-user"></i>Set Inclusions
-                    [<?php echo $this->Form->postLink('acoSync', ['controller' => 'Access', 'action' => 'sync'], ['title' => 'Click to sync new Controllers ans Actions', 'class' => 'color-blue']); ?>
-                    ]</h4>
+                <h4 class="panel-title">Set Inclusions [<?php echo $this->Form->postLink('acoSync', ['controller' => 'Access', 'action' => 'sync'], ['title' => 'Click to sync new Controllers ans Actions', 'class' => 'color-blue']); ?>]</h4>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-bordered">
                     <thead>
                     <tr>
                         <th>Controllers / Actions</th>
-                        <th class="width10">&nbsp;</th>
+                        <th class="width10">Included?</th>
                     </tr>
                     </thead>
                     <tbody>

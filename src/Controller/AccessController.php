@@ -19,10 +19,17 @@ class AccessController extends AppController
 
     public function groups()
     {
+        $this->loadModel('Aros');
+        $query = $this->Aros;
+        $query->belongsTo('Groups', [
+            'foreignKey' => 'foreign_key',
+            'joinType' => 'INNER'
+        ]);
+        $groups = $query->find()
+            ->contain('Groups')
+            ->where(['model' => 'Groups'])
+            ->toArray();
 
-        $this->loadModel('Groups');
-
-        $groups = $this->Groups->find();
         $this->set(compact('groups'));
 
         $this->loadModel('Acos');
@@ -30,6 +37,7 @@ class AccessController extends AppController
         $query->contain('Aros');
         $query->where(['included' => 1]);
         $results = $query->toArray();
+
         if (isset($results[0]->alias) && $results[0]->alias == 'controllers') {
             $acos = $results[0];
             $this->set(compact('acos'));

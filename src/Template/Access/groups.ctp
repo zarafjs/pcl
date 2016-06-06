@@ -8,15 +8,15 @@
         <div class="panel panel-default">
             <!-- Start .panel -->
             <div class="panel-heading">
-                <h4 class="panel-title"><i class="fa fa-user"></i>Set Permissions [<?php echo $this->Form->postLink('acoSync', ['controller' => 'Access', 'action' => 'sync'], ['title' => 'Click to sync new Controllers ans Actions', 'class' => 'color-blue']); ?>]</h4>
+                <h4 class="panel-title">Set Permissions [<?php echo $this->Form->postLink('acoSync', ['controller' => 'Access', 'action' => 'sync'], ['title' => 'Click to sync new Controllers ans Actions', 'class' => 'color-blue']); ?>]</h4>
             </div>
             <div class="panel-body">
                 <table class="table table-hover table-bordered">
                     <thead>
                     <tr>
+                        <th>Controllers/Actions</th>
                         <?php foreach ($groups as $group): ?>
-                            <th><?php echo $group->name; ?></th>
-                            <th class="width10">&nbsp;</th>
+                            <th class="width10"><?php echo $group->group->name; ?></th>
                         <?php endforeach; ?>
                     </tr>
                     </thead>
@@ -24,17 +24,17 @@
                     <?php if (isset($acos) && $acos): ?>
                         <?php
                         if ($acos->aros) {
-                            $gRos = \Cake\Utility\Hash::combine($acos->aros, '{n}.foreign_key', '{n}');
+                            $gRos = \Cake\Utility\Hash::combine($acos->aros, '{n}.id', '{n}');
                         }
                         ?>
                         <tr>
+                            <td>
+                                All Controllers
+                            </td>
                             <?php foreach ($groups as $group): ?>
                                 <?php
                                 $gPermitted = (isset($gRos[$group->id]) && $gRos[$group->id]->model == 'Groups' && $gRos[$group->id]->_joinData->_create == 1);
                                 ?>
-                                <td>
-                                    All Controllers
-                                </td>
                                 <td class="width10">
                                     <span class="aco_permission <?php echo $gPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $acos->id; ?>">&#10004;</span>
                                 </td>
@@ -44,10 +44,13 @@
                             <?php
                             $cRos = [];
                             if ($cont->aros) {
-                                $cRos = \Cake\Utility\Hash::combine($cont->aros, '{n}.foreign_key', '{n}');
+                                $cRos = \Cake\Utility\Hash::combine($cont->aros, '{n}.id', '{n}');
                             }
                             ?>
                             <tr>
+                                <td>
+                                    <?php echo str_repeat("&nbsp;", 5); ?><strong><?php echo $cont->alias; ?></strong>
+                                </td>
                                 <?php foreach ($groups as $group): ?>
                                     <?php
                                     $gPermitted = (isset($gRos[$group->id]) && $gRos[$group->id]->model == 'Groups' && $gRos[$group->id]->_joinData->_create == 1);
@@ -56,9 +59,6 @@
                                         $cPermitted = $gPermitted;
                                     }
                                     ?>
-                                    <td>
-                                        <?php echo str_repeat("&nbsp;", 5); ?><strong><?php echo $cont->alias; ?></strong>
-                                    </td>
                                     <td class="width10">
                                         <span class="aco_permission <?php echo $cPermitted ? '' : 'opacity02'; ?>" rel="<?php echo $group->id . '_' . $cont->id; ?>">&#10004;</span>
 
@@ -69,10 +69,13 @@
                                 <?php
                                 $aRos = [];
                                 if ($act->aros) {
-                                    $aRos = \Cake\Utility\Hash::combine($act->aros, '{n}.foreign_key', '{n}');
+                                    $aRos = \Cake\Utility\Hash::combine($act->aros, '{n}.id', '{n}');
                                 }
                                 ?>
                                 <tr>
+                                    <td>
+                                        <?php echo str_repeat("&nbsp;", 20); ?><?php echo $act->alias; ?>
+                                    </td>
                                     <?php foreach ($groups as $group): ?>
                                         <?php
                                         $gPermitted = (isset($gRos[$group->id]) && $gRos[$group->id]->model == 'Groups' && $gRos[$group->id]->_joinData->_create == 1);
@@ -85,9 +88,6 @@
                                             $aPermitted = $cPermitted;
                                         }
                                         ?>
-                                        <td>
-                                            <?php echo str_repeat("&nbsp;", 20); ?><?php echo $act->alias; ?>
-                                        </td>
                                         <td class="width10">
                                             <span class="aco_permission <?php echo $aPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $act->id; ?>">&#10004;</span>
                                         </td>
@@ -97,10 +97,13 @@
                                     <?php
                                     $iRos = [];
                                     if ($item->aros) {
-                                        $iRos = \Cake\Utility\Hash::combine($item->aros, '{n}.foreign_key', '{n}');
+                                        $iRos = \Cake\Utility\Hash::combine($item->aros, '{n}.id', '{n}');
                                     }
                                     ?>
                                     <tr>
+                                        <td>
+                                            <?php echo str_repeat("&nbsp;", 30); ?><?php echo $item->alias; ?>
+                                        </td>
                                         <?php foreach ($groups as $group): ?>
                                             <?php
                                             $gPermitted = (isset($gRos[$group->id]) && $gRos[$group->id]->model == 'Groups' && $gRos[$group->id]->_joinData->_create == 1);
@@ -117,9 +120,6 @@
                                                 $iPermitted = $aPermitted;
                                             }
                                             ?>
-                                            <td>
-                                                <?php echo str_repeat("&nbsp;", 30); ?><?php echo $item->alias; ?>
-                                            </td>
                                             <td class="width10">
                                                 <span class="aco_permission <?php echo $aPermitted ? '' : 'opacity02' ?>" rel="<?php echo $group->id . '_' . $item->id; ?>">&#10004;</span>
                                             </td>
