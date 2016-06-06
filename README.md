@@ -22,9 +22,9 @@ Plugin::load('Pcl', ['bootstrap' => false]);
 ```
 
 ##Usage
-1. Navigate to /pcl/access/sync.
-2. On the redirected page you can set which prefix, controllers or actions to show on main permissions page.
-3. Finally navigate to /pcl/access/groups to set the globall or specific required permissions.
+1. After successful installation navigate to /pcl/access/sync.
+2. On the redirected page you can set which prefixes, controllers or actions to include or exclude on the main permissions page.
+3. Finally navigate to /pcl/access/groups to set the required global or specific permissions.
 
 
 ##Thank you
