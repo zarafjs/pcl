@@ -49,6 +49,8 @@ class AccessController extends AppController
         $this->viewBuilder()->layout(false);
         $this->autoRender = false;
 
+        $this->Acl->allow(1, 1);
+
         if ($this->request->is(['post'])) {
             $job = new \Acl\Shell\AclExtrasShell();
             $job->startup();
@@ -75,7 +77,10 @@ class AccessController extends AppController
         $job = new \Acl\Shell\AclExtrasShell();
         $job->startup();
         $job->acoSync();
-        return $this->redirect(['action' => 'inclusions']);
+        if ($this->Auth->user()) {
+            return $this->redirect(['action' => 'inclusions']);
+        }
+        return $this->redirect('/');
     }
 
     public function inclusions()
