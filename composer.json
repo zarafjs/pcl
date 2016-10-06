@@ -1,5 +1,5 @@
 {
-  "name": "mainuljs/pcl",
+  "name": "muinjs/pcl",
   "type": "cakephp-plugin",
   "description": "CakePHP 3 Permission Control Plugin",
   "keywords": [
@@ -10,7 +10,7 @@
   "authors": [
     {
       "name": "A K M Mainul Islam",
-      "email": "mainuljs@gmail.com",
+      "email": "muinjs@gmail.com",
       "role": "Developer"
     }
   ],
